@@ -7,7 +7,7 @@ public class Menu : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             Application.OpenURL("https://github.com/srcnalt/OpenAI-Unity#saving-your-credentials");
         }

@@ -12,6 +12,7 @@ public class AIRequest : MonoBehaviour
     [SerializeField] private Material screen;
     [SerializeField] private InputField userInput;
     [SerializeField] private Text resultTarget;
+    [SerializeField] private Texture defaultTexture;
     
     private OpenAIApi openai = new OpenAIApi();
 
@@ -20,6 +21,7 @@ public class AIRequest : MonoBehaviour
     private string Instruction =
         "Act as a fortune teller who is about to tell a stranger who they were in their past life according to how they describe themselves. " +
         "Make up a response not using the same info provided but relate the answer to it from different angles." +
+        "If the strangers input is too short, make up some random answer for fortune teller." +
         "Answer at most in 60 words.\n\nStranger: I am a ";
 
     private void Update()
@@ -47,7 +49,7 @@ public class AIRequest : MonoBehaviour
 
         var response = await openai.CreateImage(new CreateImageRequest
         {
-            Prompt = "Photo of a person, realistic, polaroid, old photo, 8k, " + text,
+            Prompt = "Photo of a person, realistic, old photo, pastel colors, 8k, " + text,
             Size = ImageSize.Size256
         });
 
@@ -72,5 +74,10 @@ public class AIRequest : MonoBehaviour
         {
             Debug.LogWarning("No image was created from this prompt.");
         }
+    }
+
+    public void CleanScreen()
+    {
+        screen.SetTexture("_BaseMap", defaultTexture);
     }
 }
