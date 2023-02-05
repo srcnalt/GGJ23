@@ -18,11 +18,13 @@ public class AIRequest : MonoBehaviour
 
     public UnityEvent OnCompleted;
 
-    private string Instruction =
+    private string instruction =
         "Act as a fortune teller who is about to tell a stranger who they were in their past life according to how they describe themselves. " +
         "Make up a response not using the same info provided but relate the answer to it from different angles." +
         "If the strangers input is too short, make up some random answer for fortune teller." +
         "Answer at most in 60 words.\n\nStranger: I am a ";
+
+    private string photoInstruction = "Photo of a person, face centered, realistic, old photo, pastel colors, 8k, ";
 
     private void Update()
     {
@@ -36,7 +38,7 @@ public class AIRequest : MonoBehaviour
     {
         var completionResponse = await openai.CreateCompletion(new CreateCompletionRequest()
         {
-            Prompt = Instruction + userInput.text + ".\n\nFortune teller: ",
+            Prompt = instruction + userInput.text + ".\n\nFortune teller: ",
             Stop = "\n",
             Model = "text-davinci-003",
             MaxTokens = 128,
@@ -49,7 +51,7 @@ public class AIRequest : MonoBehaviour
 
         var response = await openai.CreateImage(new CreateImageRequest
         {
-            Prompt = "Photo of a person, realistic, old photo, pastel colors, 8k, " + text,
+            Prompt = photoInstruction + text,
             Size = ImageSize.Size256
         });
 
