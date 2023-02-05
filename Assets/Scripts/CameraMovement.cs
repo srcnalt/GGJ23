@@ -15,7 +15,10 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        MoveCamera();
+        if (runOnStart)
+        {
+            MoveCamera();
+        }
     }
 
     public async void MoveCamera()
@@ -25,6 +28,7 @@ public class CameraMovement : MonoBehaviour
         while (progress <= 1)
         {
             camera.transform.position = Vector3.Lerp(pointOne.position, pointTwo.position, progress);
+            camera.transform.eulerAngles = Vector3.Lerp(pointOne.eulerAngles, pointTwo.eulerAngles, progress);
             progress += speed * Time.deltaTime;
             await Task.Yield();
         }
